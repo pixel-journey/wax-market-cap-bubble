@@ -1,0 +1,24 @@
+{
+  "name": "wax-market-cap-bubble",
+  "version": "0.1.0",
+  "private": true,
+  "description": "1000 at 200000000 with 8 decimals is 2000. A remainder is not rounded up. Not a chart.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "^15.5.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.0",
+    "vitest": "^2.1.8"
+  }
+}
