@@ -1,23 +1,14 @@
-# Supply times price
+# wax-market-cap-bubble
 
-**Trust label:** `educational-reference`  
-**Catalog:** [wax-ecosystem-blueprint-catalog](https://github.com/pixel-journey/wax-ecosystem-blueprint-catalog)
+> **Trust label:** `educational-reference`  
+> **Status:** Pure arithmetic + education pass (2026-10-31)
 
-1000 at 200000000 with 8 decimals is 2000. A remainder is not rounded up. Not a chart.
+**Supply × unit price / 10^decimals** with visible remainder. Not a live chart.
 
-The earlier README described a live product. This tree does not ship that.
+```bash
+npm test && npm run dev
+```
 
-## What is actually in the repo
+[POLICY.md](./POLICY.md)
 
-| Piece | Role |
-| --- | --- |
-| `src/cap.ts` | The pure rules |
-| `src/cap.test.ts` | The claims in the verification log |
-| `src/usecases.ts` | HTTP requests, built and not sent |
-| `src/Demo.tsx` | Offline page |
-
-`npm test` runs the rules. `npm run dev` opens the page.
-
-## Queries
-
-`executed` is false. This repo did not call any host. No transaction is invented.
+MIT — Pixel Journey
