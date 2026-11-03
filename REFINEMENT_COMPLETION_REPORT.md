@@ -1,11 +1,13 @@
-# Market-cap lab — deeper pass
+# Market-cap lab — polish pass (freeze candidate)
 
 **Updated:** 2026-11-03
 
 | Area | Notes |
 |------|-------|
-| Share URL / localStorage | yes |
-| Cases / MD / CSV / print | yes |
+| Tests | supply×price×decimals grid |
+| Docs | deep README, SECURITY, PUBLIC-READINESS |
+
+**Suggested next:** freeze and full-thrust another thin blueprint.
 
 ```bash
 npm test && npm run dev
