@@ -1,8 +1,9 @@
 # Verification Log
 
-**Updated:** 2026-10-31
+**Updated:** 2026-11-03
 
 | Claim | Status |
 | --- | --- |
-| marketCap rules | unit |
-| Live market read | out of scope |
+| marketCap scale + remainder | unit |
+| compareCaps / bubbleRadius | unit |
+| Live market chart | out of scope |

@@ -1,20 +1,14 @@
-# Policy — market cap bubble (arithmetic)
+# Policy — market-cap lab
 
 **Trust label:** `educational-reference`  
-**Updated:** 2026-10-31
+**Updated:** 2026-11-03
 
 ## In scope
 
-- Pure `marketCap(supply, unitPrice, decimals)` with bigint
-- Remainder on truncated division
-- Offline demo / unsent usecase shapes
+- Pure marketCap / compare / teaching radius
+- Offline demo and unit tests
 
 ## Out of scope
 
-- Live bubble charts or Alcor/Atomic price feeds in this tree
-- Rounding policies beyond truncate + remainder
-
-## Rules
-
-- Tests never require network
-- Demo does not call hosts
+- Live market data or chart product
+- Claims about real collection market caps

@@ -1,5 +1,13 @@
 # Architecture
 
-Multiply supply by a unit price and scale by decimals.
+```
+supply, unitPrice, decimals
+        │
+        ▼
+   marketCap → value, remainder, product, scale
+        │
+        ├── compareCaps
+        └── bubbleRadius (teaching)
+```
 
-The page calls the same functions as the tests. It does not open a socket and it does not sign.
+Honesty boundary: no market feed, no wallet, no broadcast.
