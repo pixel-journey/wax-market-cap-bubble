@@ -1,6 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Cases } from "./Cases";
+import {
+  downloadText,
+  exportCapCsv,
+  exportCapMarkdown,
+} from "./exportReport";
 import {
   bubbleRadius,
   compareCaps,
@@ -8,6 +14,9 @@ import {
   SAMPLE_CAPS,
 } from "./cap";
 import { CAP_MYTHS, GLOSSARY } from "./myths";
+import { decodeShareState, encodeShareState } from "./shareState";
+
+const LS_KEY = "pxj-market-cap-v1";
 
 export function Demo() {
   const [supply, setSupply] = useState("1000");
@@ -17,6 +26,36 @@ export function Demo() {
   const [maxR, setMaxR] = useState("40");
   const [compare, setCompare] = useState(false);
   const [supplyB, setSupplyB] = useState("500");
+  const [shareMsg, setShareMsg] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const fromUrl = decodeShareState(window.location.search);
+    if (fromUrl.supply || fromUrl.price) {
+      if (fromUrl.supply) setSupply(fromUrl.supply);
+      if (fromUrl.price) setPrice(fromUrl.price);
+      if (fromUrl.decimals) setDecimals(fromUrl.decimals);
+      return;
+    }
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      const p = JSON.parse(raw) as Record<string, string>;
+      if (p.supply) setSupply(p.supply);
+      if (p.price) setPrice(p.price);
+      if (p.decimals) setDecimals(p.decimals);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ supply, price, decimals }));
+    } catch {
+      /* ignore */
+    }
+  }, [supply, price, decimals]);
 
   const cap = useMemo(() => {
     try {
@@ -59,8 +98,23 @@ export function Demo() {
     }
   }, [compare, supply, supplyB, price, decimals]);
 
+  const copyShare = async () => {
+    const qs = encodeShareState({ supply, price, decimals });
+    const path =
+      typeof window !== "undefined"
+        ? `${window.location.origin}${window.location.pathname}?${qs}`
+        : `?${qs}`;
+    try {
+      await navigator.clipboard.writeText(path);
+      setShareMsg("Share URL copied");
+    } catch {
+      setShareMsg(path);
+    }
+  };
+
   return (
     <main className="wrap">
+      <style>{`@media print { button, .no-print { display: none !important; } }`}</style>
       <p className="kicker">Educational reference · Pixel Journey</p>
       <h1>Market-cap arithmetic lab</h1>
       <p className="lede">
@@ -68,6 +122,7 @@ export function Demo() {
       </p>
 
       <section
+        className="no-print"
         style={{
           marginBottom: "1.5rem",
           padding: "1rem",
@@ -88,7 +143,7 @@ export function Demo() {
         ))}
       </section>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1rem" }}>
+      <div className="no-print" style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1rem" }}>
         {SAMPLE_CAPS.map((s) => (
           <button
             key={s.id}
@@ -157,12 +212,54 @@ export function Demo() {
               Teaching bubble radius: <strong>{radius.radius}</strong>
             </p>
           )}
+          <div className="no-print" style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            <button
+              type="button"
+              onClick={() =>
+                downloadText(
+                  "market-cap.md",
+                  exportCapMarkdown(supply, price, decimals, cap)
+                )
+              }
+            >
+              Download MD
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                downloadText(
+                  "market-cap.csv",
+                  exportCapCsv({
+                    supply,
+                    price,
+                    decimals,
+                    value: cap.value.toString(),
+                    remainder: cap.remainder.toString(),
+                  }),
+                  "text/csv;charset=utf-8"
+                )
+              }
+            >
+              Download CSV
+            </button>
+            <button type="button" onClick={() => void copyShare()}>
+              Copy share URL
+            </button>
+            <button type="button" onClick={() => window.print()}>
+              Print
+            </button>
+          </div>
+          {shareMsg && (
+            <p className="no-print" style={{ fontSize: "0.85rem", opacity: 0.8 }}>
+              {shareMsg}
+            </p>
+          )}
         </>
       ) : (
         <p>{cap.reason}</p>
       )}
 
-      <label style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "1rem" }}>
+      <label className="no-print" style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "1rem" }}>
         <input
           type="checkbox"
           checked={compare}
@@ -187,7 +284,21 @@ export function Demo() {
         </p>
       )}
 
-      <section style={{ marginTop: "2rem" }}>
+      <div className="no-print">
+        <Cases />
+      </div>
+
+      <section style={{ marginTop: "1.5rem" }}>
+        <h2 style={{ fontSize: "1rem" }}>Runbook</h2>
+        <ol style={{ fontSize: "0.9rem" }}>
+          <li>Enter supply, integer unit price, and decimals.</li>
+          <li>Read floor value and remainder.</li>
+          <li>Optional: teaching radius, compare supplies, export, share.</li>
+          <li>Do not treat results as live market data.</li>
+        </ol>
+      </section>
+
+      <section style={{ marginTop: "1.5rem" }}>
         <h2 style={{ fontSize: "1rem" }}>Glossary</h2>
         <dl>
           {GLOSSARY.map((g) => (
@@ -201,8 +312,8 @@ export function Demo() {
         </dl>
       </section>
 
-      <p style={{ marginTop: "2rem", fontSize: "0.85rem", opacity: 0.75 }}>
-        See EDUCATION.md · POLICY.md · SECURITY.md · companion: rwa-fractional-floor-index
+      <p className="no-print" style={{ marginTop: "2rem", fontSize: "0.85rem", opacity: 0.75 }}>
+        URL overrides localStorage when present. See EDUCATION.md · SECURITY.md
       </p>
     </main>
   );

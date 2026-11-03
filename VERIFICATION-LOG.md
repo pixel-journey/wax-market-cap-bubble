@@ -6,4 +6,5 @@
 | --- | --- |
 | marketCap scale + remainder | unit |
 | compareCaps / bubbleRadius | unit |
+| shareState | unit |
 | Live market chart | out of scope |

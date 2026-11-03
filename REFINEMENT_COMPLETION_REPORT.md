@@ -1,13 +1,11 @@
-# Full-thrust — market-cap lab
+# Market-cap lab — deeper pass
 
 **Updated:** 2026-11-03
 
 | Area | Notes |
 |------|-------|
-| Engine | product/exact, compare, radius |
-| Tests | invariants, clamp |
-| Docs | EDUCATION, ARCHITECTURE, POLICY, SECURITY |
-| UI | samples, compare, teaching radius |
+| Share URL / localStorage | yes |
+| Cases / MD / CSV / print | yes |
 
 ```bash
 npm test && npm run dev
