@@ -3,7 +3,9 @@
 > **Rung:** `npm test` passes. `floor(supply * unitPrice / 10^decimals)` and the remainder. Not a chart and not a live market cap.  
 > **The test is the rule.** A holder's floor of one whole price is [wax-rwa-fractional-floor-index](https://github.com/pixel-journey/wax-rwa-fractional-floor-index). Eight decimals here is the argument you pass, which is also WAX token precision, not a chain read.
 
-**PXJ precision is always 8** in Pixel Journey token labs; this function still takes `decimals` as an argument so you can teach other scales.
+**PXJ precision is always 8** in Pixel Journey token labs; this function still takes `decimals` as an argument so you can teach other scales. See [decimal supply simulator](https://github.com/pixel-journey/px-token-ft-decimal-supply-simulator).
+
+Official: [docs.wax.io](https://docs.wax.io/).
 
 ## Learning outcomes
 
@@ -37,9 +39,18 @@ npm test
 
 ## Intermediate
 
-- Decimals allowed 0..18 inclusive.
+- Decimals allowed **0..18** inclusive (same teaching band as the FT decimal lab).
 - Bubble radius is a teaching clamp, not a pixel recommendation.
 - Unsent HTTP examples (including packs) are not this product.
+
+### Attack → test
+
+| Attack | Lab behavior |
+| --- | --- |
+| Drop remainder and claim conservation | identity fails |
+| Decimals 19 | refused |
+| Negative supply | refused |
+| Cite as live Alcor market cap | arguments only |
 
 ---
 
@@ -49,13 +60,14 @@ npm test
 
 1. Dropping the remainder and still claiming conservation.  
 2. Reading Alcor and citing this pure product as the scan.  
-3. Treating bubble radius as financial advice.
+3. Treating bubble radius as financial advice.  
+4. Confusing `issue(1n)` with one whole token at precision 8 ([decimal simulator](https://github.com/pixel-journey/px-token-ft-decimal-supply-simulator)).
 
 ### Exercises
 
-1. Why is `1n, 1n, 8` value 0?  
-2. Max decimals? (18.)  
-3. Is this a live market cap? (No.)
+1. Why is `1n, 1n, 8` value 0? (Floor of tiny product.)  
+2. Max decimals? (**18**.)  
+3. Is this a live market cap? (**No**.)
 
 ---
 
@@ -63,3 +75,4 @@ npm test
 
 - Live order books
 - Investable valuation
+- That bubble radius is UI pixel truth
