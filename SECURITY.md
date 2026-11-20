@@ -1,20 +1,27 @@
-# Security notes
+# Security — market-cap arithmetic
 
-**Trust label:** `educational-reference`
+## Closed in tests
 
-## What this package does not do
+| Issue | Behavior |
+| --- | --- |
+| Remainder conservation | `value * scale + remainder === supply * unitPrice` |
+| Decimals | 0..18; 19 refused |
+| Negative supply | refused |
 
-- No private keys, wallets, or signing
-- No market / Alcor / Atomic APIs on the measure path
-- No claim that educational values are investable market caps
+## Not closed (production)
 
-## Host-product guidance
+| Concern | Guidance |
+| --- | --- |
+| Live prices | Arguments only; no Alcor/Atomic read |
+| Investable claim | Forbidden |
+| Display | Keep remainder visible if you teach conservation |
 
-- Treat `value` / `remainder` as teaching arithmetic only.
-- Share URLs only encode demo numbers.
-- localStorage holds last inputs on the same origin; clear on shared devices.
-- Prefer **WharfKit** if a future host adds intentional chain actions.
+## Attack angles
 
-## Supply-chain
+1. Marketing "market cap" from demo numbers.  
+2. Dropping remainder and claiming exactness.  
+3. Using JS `Number` for large supply × price products.
 
-Correctness is locked by pure unit tests (including a small grid). Pin dependencies for any public deploy.
+## Honesty limits
+
+No private keys, wallets, or signing. No market APIs on the measure path. [docs.wax.io](https://docs.wax.io/) · [decimal simulator](https://github.com/pixel-journey/px-token-ft-decimal-supply-simulator).
