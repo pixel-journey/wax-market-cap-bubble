@@ -2,7 +2,7 @@
 
 > **Trust label:** `educational-reference`  
 > **Status:** Full-thrust + polish (2026-11-03)  
-> **Catalog:** [wax-ecosystem-blueprint-catalog](https://github.com/pixel-journey/wax-ecosystem-blueprint-catalog)
+> **Catalog:** `wax-ecosystem-blueprint-catalog` (private index; not this public course)
 
 **One-sentence goal:** Teach **supply × unit price / 10^decimals** with a visible remainder — without claiming a live market-cap chart.
 
@@ -14,6 +14,8 @@
 | `src/*.test.ts` | Invariants + grid |
 | `src/Demo.tsx` | Interactive lab + exports |
 | Docs | EDUCATION · ARCHITECTURE · POLICY · SECURITY |
+
+The course is [EDUCATION.md](EDUCATION.md).
 
 ## Quick start
 
